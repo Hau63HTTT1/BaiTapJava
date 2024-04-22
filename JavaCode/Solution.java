@@ -5,7 +5,7 @@ public class Solution {
         try(Scanner scanner = new Scanner(System.in)){
             int a = Integer.parseInt(scanner.nextLine());
             double b = Double.parseDouble(scanner.nextLine());
-            int d = 21
+            int d = 21;
             String c = scanner.nextLine();
             System.out.println("String: " + c);
             System.out.println("Double: " + b);
