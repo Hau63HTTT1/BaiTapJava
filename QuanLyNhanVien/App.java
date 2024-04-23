@@ -2,40 +2,73 @@ package QuanLySinhVien;
 import java.util.Scanner;
 public class App {
     private static Scanner scanner = new Scanner(System.in);
-    private static EmployManagement employeeManage = new EmployManagement();
+    private static EmployManagement employManagement = new EmployManagement();
 
     private static void displayEmployees() {
         System.out.print("List of Employee :\n");
         System.out.print(
                 "ID             |Name              |Age               |Department            |Code              |Salary rate\n");
-        for (Employee employee : employeeManage.getEmployees()) {
+        for (Employee employee : employManagement.getEmployees()) {
             System.out.print(employee.getID() + "            |" + employee.getName() + "           |"
                     + employee.getAge() + "             |" + employee.getDepartment() + "              |"
                     + employee.getCode() + "            |" + employee.getSalaryrate() + "\n");
         }
         ;
-        System.out.println("-------------------------------------------------------------------------------------");
+        System.out.println("-----------~--------------------------------------------------------------------------");
     }
 
     private static void createEmployee() {
         System.out.print("Please!Input the information of employee:\n");
         System.out.print("ID : ");
-        int id = scanner.nextInt();
-        scanner.nextLine();
+        int id;
+        while (true) {
+            try {
+                id = Integer.parseInt(scanner.nextLine());
+                // Kiểm tra xem id có là số không
+                break;
+            } catch (NumberFormatException e) {
+                System.out.print("ID must be a number. Please enter a valid ID:");
+            }
+        }
+        while (employManagement.isIdExist(id)) {
+            System.out.println("This ID already exists. Please enter a different ID:");
+            id = Integer.parseInt(scanner.nextLine());
+        }
         System.out.print("Name : ");
         String name = scanner.nextLine();
         System.out.print("Age : ");
-        int age = scanner.nextInt();
-        scanner.nextLine();
+        int age;
+        while (true) {
+            try {
+                age = Integer.parseInt(scanner.nextLine());
+                // Kiểm tra xem age có là số không
+                break;
+            } catch (NumberFormatException e) {
+                System.out.print("Age must be a number. Please enter a valid age:");
+            }
+        }
         System.out.print("Deparment : ");
         String deparment = scanner.nextLine();
         System.out.print("Code : ");
         String code = scanner.nextLine();
+
+        // Kiểm tra xem code có bị trùng không
+        while (employManagement.isCodeExist(code)) {
+            System.out.print("This code already exists. Please enter a different code:");
+            code = scanner.nextLine();
+        }
         System.out.print("Salary rate: ");
-        int salary = scanner.nextInt();
-        scanner.nextLine();
-        if (employeeManage.createEmployee(id, name, age, deparment, code, salary) == true)
-            System.out.print("Added!\n");
+        int salary;
+        while (true) {
+            try {
+                salary = Integer.parseInt(scanner.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.print("Salary must be a number. Please enter a valid salary rate:");
+            }
+        }
+        if (employManagement.createEmployee(id, name, age, deparment, code, salary) == true)
+            System.out.print("Employee added successfully!\n");
         else {
             System.out.print("Please,Check your input , it isn't correct!\n");
         }
@@ -46,7 +79,7 @@ public class App {
         System.out.print("Please!Input the information of employee to delete: ");
         int id = scanner.nextInt();
         scanner.nextLine();
-        if (employeeManage.deleteEmployee(id) == true) {
+        if (employManagement.deleteEmployee(id) == true) {
             System.out.print("Deleted!\n");
         } else {
             System.out.print("Sorry, don't find employee!\n");
@@ -55,7 +88,7 @@ public class App {
     }
 
     public static void main(String[] args) throws Exception {
-        employeeManage.initializeEmployees();
+        employManagement.initializeEmployees();
         int exit = 0;
         int select;
         while (exit != 1) {
@@ -64,7 +97,7 @@ public class App {
             System.out.print("2 :Delete employee \n");
             System.out.print("3 :View employee \n");
             System.out.print("4 :Exit \n");
-            System.out.print("Please!Chóose your select : ");
+            System.out.print("Please!Choose your select : ");
             select = scanner.nextInt();
             scanner.nextLine();
             switch (select) {
